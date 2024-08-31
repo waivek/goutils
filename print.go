@@ -162,6 +162,7 @@ func richSprintf(text string) string {
 }
 
 func bar() {
+    //
 	Print("[red on blue bold]hello[/] [red on #ffffff]world[/]")
 	Print("[black on green bold]hello[/]")
 	Print("[white on green bold]hello[/]")
