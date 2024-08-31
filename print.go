@@ -10,48 +10,21 @@ import (
 	"github.com/fatih/color"
 )
 
-func richPrint(text string, debug bool) {
-	re := regexp.MustCompile(`\[([^\]]+)\]([^\[]+)\[/\]`)
-	matches := re.FindAllStringSubmatch(text, -1)
+func richPrint(text string, debugOpt ...bool) {
+	debug := false
+	if len(debugOpt) > 0 {
+		debug = debugOpt[0]
+	}
+
+	formattedText := richSprintf(text)
 
 	if debug {
 		fmt.Fprintf(os.Stderr, "Original text: %s\n", text)
+		visibleAnsi := strings.ReplaceAll(formattedText, "\x1b", "\\x1b")
+		fmt.Fprintf(os.Stderr, "Final text with visible ANSI: %s\n", visibleAnsi)
 	}
 
-	for _, match := range matches {
-		fullMatch := match[0]
-		style := match[1]
-		content := match[2]
-
-		parts := strings.Split(style, " ")
-		fg := parts[0]
-		bg := ""
-		attrs := []color.Attribute{}
-
-		if len(parts) > 2 && parts[1] == "on" {
-			bg = parts[2]
-			attrs = parseAttributes(parts[3:])
-		} else {
-			attrs = parseAttributes(parts[1:])
-		}
-
-		printer := createColorPrinter(fg, bg, attrs)
-		coloredText := printer(content)
-
-		if debug {
-			visibleAnsi := strings.ReplaceAll(coloredText, "\x1b", "\\x1b")
-			fmt.Printf("Visible ANSI: %s\n", visibleAnsi)
-		}
-
-		text = strings.Replace(text, fullMatch, coloredText, 1)
-	}
-
-	if debug {
-		visibleFinalText := strings.ReplaceAll(text, "\x1b", "\\x1b")
-		fmt.Printf("Final text with visible ANSI: %s\n", visibleFinalText)
-	}
-
-	fmt.Println(text) // Changed from fmt.Print to fmt.Println
+	fmt.Println(formattedText)
 }
 
 func parseAttributes(attrs []string) []color.Attribute {
@@ -158,11 +131,42 @@ func hexToRGB(hex string) (uint8, uint8, uint8) {
 	return uint8(r), uint8(g), uint8(b)
 }
 
+func richSprintf(text string) string {
+	re := regexp.MustCompile(`\[([^\]]+)\]([^\[]+)\[/\]`)
+	matches := re.FindAllStringSubmatch(text, -1)
+
+	for _, match := range matches {
+		fullMatch := match[0]
+		style := match[1]
+		content := match[2]
+
+		parts := strings.Split(style, " ")
+		fg := parts[0]
+		bg := ""
+		attrs := []color.Attribute{}
+
+		if len(parts) > 2 && parts[1] == "on" {
+			bg = parts[2]
+			attrs = parseAttributes(parts[3:])
+		} else {
+			attrs = parseAttributes(parts[1:])
+		}
+
+		printer := createColorPrinter(fg, bg, attrs)
+		coloredText := printer(content)
+
+		text = strings.Replace(text, fullMatch, coloredText, 1)
+	}
+
+	return text
+}
+
 func main() {
-	richPrint("[red on blue bold]hello[/] [red on #ffffff]world[/]", false)
-	richPrint("[black on green bold]hello[/]", false)
-	richPrint("[white on green bold]hello[/]", false)
-	richPrint("[black on green]hello[/]", false)
-	richPrint("[white on green]hello[/]", false)
-	richPrint("[#ffffff on green] HELLO [/]", false)
+	richPrint("[red on blue bold]hello[/] [red on #ffffff]world[/]")
+	richPrint("[black on green bold]hello[/]")
+	richPrint("[white on green bold]hello[/]")
+	richPrint("[black on green]hello[/]")
+	richPrint("[white on green]hello[/]")
+	richPrint("[#ffffff on green] HELLO [/]")
+	richPrint("[#ffffff on green bold] HELLO [/]")
 }
