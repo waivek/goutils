@@ -1,6 +1,6 @@
-package main
+// package main
 
-// package goutils
+package goutils
 
 import (
 	"bytes"
