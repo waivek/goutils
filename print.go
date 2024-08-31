@@ -161,12 +161,12 @@ func richSprintf(text string) string {
 	return text
 }
 
-func main() {
-	richPrint("[red on blue bold]hello[/] [red on #ffffff]world[/]")
-	richPrint("[black on green bold]hello[/]")
-	richPrint("[white on green bold]hello[/]")
-	richPrint("[black on green]hello[/]")
-	richPrint("[white on green]hello[/]")
-	richPrint("[#ffffff on green] HELLO [/]")
-	richPrint("[#ffffff on green bold] HELLO [/]")
-}
+// func main() {
+// 	richPrint("[red on blue bold]hello[/] [red on #ffffff]world[/]")
+// 	richPrint("[black on green bold]hello[/]")
+// 	richPrint("[white on green bold]hello[/]")
+// 	richPrint("[black on green]hello[/]")
+// 	richPrint("[white on green]hello[/]")
+// 	richPrint("[#ffffff on green] HELLO [/]")
+// 	richPrint("[#ffffff on green bold] HELLO [/]")
+// }
