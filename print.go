@@ -10,7 +10,7 @@ import (
 	"github.com/fatih/color"
 )
 
-func RichPrint(text string, debugOpt ...bool) {
+func Print(text string, debugOpt ...bool) {
 	debug := false
 	if len(debugOpt) > 0 {
 		debug = debugOpt[0]
@@ -162,11 +162,11 @@ func richSprintf(text string) string {
 }
 
 func bar() {
-	RichPrint("[red on blue bold]hello[/] [red on #ffffff]world[/]")
-	RichPrint("[black on green bold]hello[/]")
-	RichPrint("[white on green bold]hello[/]")
-	RichPrint("[black on green]hello[/]")
-	RichPrint("[white on green]hello[/]")
-	RichPrint("[#ffffff on green] HELLO [/]")
-	RichPrint("[#ffffff on green bold] HELLO [/]")
+	Print("[red on blue bold]hello[/] [red on #ffffff]world[/]")
+	Print("[black on green bold]hello[/]")
+	Print("[white on green bold]hello[/]")
+	Print("[black on green]hello[/]")
+	Print("[white on green]hello[/]")
+	Print("[#ffffff on green] HELLO [/]")
+	Print("[#ffffff on green bold] HELLO [/]")
 }

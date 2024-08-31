@@ -43,7 +43,7 @@ func TestTimeAgo(t *testing.T) {
 			}
             //fmt.Printf("    [PASS] TimeAgo(%d) = %v; want %v\n", tt.epoch, result, tt.expected)
             message2 := fmt.Sprintf("    [black on green bold] PASS [/] " + message, tt.epoch, result, tt.expected)
-            RichPrint(message2, false)
+            Print(message2, false)
 		})
 	}
     fmt.Printf("\n")
