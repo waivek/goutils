@@ -1,0 +1,2 @@
+240831 - alignment - Add support for putting `filename.go` at the end of the line after calculating terminal size
+240831 - colors    - Add color support
